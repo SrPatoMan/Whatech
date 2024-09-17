@@ -66,7 +66,7 @@ if [ $? == 1 ];then
     exit
 fi
 
-echo -e "${BLUE}[+] ESCANEANDO SUBDOMINIOS...\n\n\n${RESET_COLOR}"
+echo -e "${BLUE}[+] SCANNING SUBDOMAINS...\n\n\n${RESET_COLOR}"
 subdomain_list=$1
 
 while IFS=' ' read -r subdomain;do
@@ -79,3 +79,8 @@ done < $subdomain_list
 mkdir -p whatech
 mkdir -p whatech/server
 mkdir -p whatech/cms
+
+cat .whatech_subdomains.txt | sed 's/\x1b\[[0-9;]*m//g' >> .whatech_subdomains_cleaned.txt
+rm .whatech_subdomains.txt
+
+#grep "HTTPServer.*nginx/[0-9]*\.[0-9]*\.[0-9]*" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1
