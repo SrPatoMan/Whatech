@@ -84,7 +84,7 @@ mkdir -p whatech/cms
 cat .whatech_subdomains.txt | sed 's/\x1b\[[0-9;]*m//g' >> .whatech_subdomains_cleaned.txt
 rm .whatech_subdomains.txt
 
-## Functions ##
+## DETECT TECHNOLOGIES FUNCTIONS ##
 server_detect() {
 
     server_detected=$1
