@@ -80,7 +80,18 @@ mkdir -p whatech
 mkdir -p whatech/server
 mkdir -p whatech/cms
 
+## Clean invisible characters ##
 cat .whatech_subdomains.txt | sed 's/\x1b\[[0-9;]*m//g' >> .whatech_subdomains_cleaned.txt
 rm .whatech_subdomains.txt
 
-#grep "HTTPServer.*nginx/[0-9]*\.[0-9]*\.[0-9]*" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1
+
+server_detect() {
+
+    server_detected=$1
+    export_file=$2
+    
+
+    grep "HTTPServer.*$server_detected/[0-9]*\.[0-9]*\.[0-9]*" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    mv $export_file whatech/server
+
+}
