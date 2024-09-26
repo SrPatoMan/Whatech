@@ -84,14 +84,22 @@ mkdir -p whatech/cms
 cat .whatech_subdomains.txt | sed 's/\x1b\[[0-9;]*m//g' >> .whatech_subdomains_cleaned.txt
 rm .whatech_subdomains.txt
 
-
+## Functions ##
 server_detect() {
 
     server_detected=$1
     export_file=$2
     
 
-    grep "HTTPServer.*$server_detected/[0-9]*\.[0-9]*\.[0-9]*" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    grep "HTTPServer.*$server_detected" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
     mv $export_file whatech/server
 
 }
+
+
+## Classification of results ##
+server_detect "nginx" "nginx_subdomains.txt"
+server_detect "Apache" "apache_subdomains.txt"
+server_detect "CloudFront" "cloudfront_subdomains.txt"
+server_detect "cloudflare" "cloudflare_subdomains.txt"
+server_detect "Akamai" "akamai_subdomains.txt"
