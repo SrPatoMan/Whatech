@@ -9,8 +9,6 @@ chmod +x whatech.sh
 
 #### Usage:
 
-./whatech <DOMAIN LIST> Ej:
-
 ./whatech subdomains.txt
 
 
