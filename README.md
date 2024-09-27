@@ -4,7 +4,14 @@
 
 #### Install:
 
-wget 
+wget 'https://raw.githubusercontent.com/SrPatoMan/Whatech/refs/heads/main/whatech.sh'
+chmod +x whatech.sh
+
+#### Usage:
+
+./whatech <DOMAIN LIST> Ej:
+
+./whatech subdomains.txt
 
 
 
