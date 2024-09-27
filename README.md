@@ -11,7 +11,7 @@ chmod +x whatech.sh
 
 ./whatech subdomains.txt
 
-### POC:
+#### POC:
 
 
 ![image](https://github.com/user-attachments/assets/2da4c61e-24e0-48e9-83ce-3f47d1a621c2)
