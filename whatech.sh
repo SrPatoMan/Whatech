@@ -85,21 +85,31 @@ cat .whatech_subdomains.txt | sed 's/\x1b\[[0-9;]*m//g' >> .whatech_subdomains_c
 rm .whatech_subdomains.txt
 
 ## DETECT TECHNOLOGIES FUNCTIONS ##
-server_detect() {
+tech_detect() {
 
-    server_detected=$1
+    tech_detected=$1
     export_file=$2
-    
+    file_path=$3
 
-    grep "HTTPServer.*$server_detected" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
-    mv $export_file whatech/server
+
+    grep "HTTPServer.*$tech_detected" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    mv $export_file $file_path
 
 }
 
 
 ## Classification of results ##
-server_detect "nginx" "nginx_subdomains.txt"
-server_detect "Apache" "apache_subdomains.txt"
-server_detect "CloudFront" "cloudfront_subdomains.txt"
-server_detect "cloudflare" "cloudflare_subdomains.txt"
-server_detect "Akamai" "akamai_subdomains.txt"
+server_path=whatech/server
+cms_path=whatech/cms
+
+## Servers ##
+tech_detect "nginx" "nginx_subdomains.txt" "$server_path"
+tech_detect "Apache" "apache_subdomains.txt" "$server_path"
+tech_detect "CloudFront" "cloudfront_subdomains.txt" "$server_path"
+tech_detect "cloudflare" "cloudflare_subdomains.txt" "$server_path"
+tech_detect "Akamai" "akamai_subdomains.txt" "$server_path"
+
+## CMS ##
+tech_detect "WordPress" "wordpress_subdomains.txt" "$cms_path"
+tech_detect "Moodle" "moodle_subdomains.txt" "$cms_path"
+tech_detect "Drupal" "drupal_subdomains.txt" "$cms_path"
