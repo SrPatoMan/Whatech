@@ -76,9 +76,10 @@ while IFS=' ' read -r subdomain;do
 done < $subdomain_list
 
 ## output ##
-mkdir -p whatech
 mkdir -p whatech/server
 mkdir -p whatech/cms
+mkdir -p whatech/os
+mkdir -p whatech/other
 
 ## Clean invisible characters ##
 cat .whatech_subdomains.txt | sed 's/\x1b\[[0-9;]*m//g' >> .whatech_subdomains_cleaned.txt
@@ -96,20 +97,43 @@ tech_detect() {
     mv $export_file $file_path
 
 }
+tech_detect2() {
+
+    tech_detected=$1
+    export_file=$2
+    file_path=$3
+
+
+    grep "$tech_detected" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    mv $export_file $file_path
+
+}
 
 
 ## Classification of results ##
 server_path=whatech/server
 cms_path=whatech/cms
+os_path=whatech/os
+other_path=whatech/other
 
-## Servers ##
+## Servers / Proxys / CDNs detection ##
 tech_detect "nginx" "nginx_subdomains.txt" "$server_path"
 tech_detect "Apache" "apache_subdomains.txt" "$server_path"
 tech_detect "CloudFront" "cloudfront_subdomains.txt" "$server_path"
 tech_detect "cloudflare" "cloudflare_subdomains.txt" "$server_path"
 tech_detect "Akamai" "akamai_subdomains.txt" "$server_path"
+tech_detect "BigIP" "f5bigip_subdomains.txt" "$server_path"
 
-## CMS ##
-tech_detect "WordPress" "wordpress_subdomains.txt" "$cms_path"
-tech_detect "Moodle" "moodle_subdomains.txt" "$cms_path"
-tech_detect "Drupal" "drupal_subdomains.txt" "$cms_path"
+
+## CMS detection ##
+tech_detect2 "WordPress" "wordpress_subdomains.txt" "$cms_path"
+tech_detect2 "Moodle" "moodle_subdomains.txt" "$cms_path"
+tech_detect2 "Drupal" "drupal_subdomains.txt" "$cms_path"
+
+## OS detection ##
+tech_detect2 "AlmaLinux" "almalinux_subdomains.txt" "$os_path"
+
+## Other detections ##
+tech_detect2 "PHP" "php_subdomains.txt" "$other_path"
+tech_detect2 "OpenResty" "openresty_subdomains.txt" "$other_path"
+tech_detect2 "403 Forbidden" "forbidden_subdomains.txt" "$other_path"
