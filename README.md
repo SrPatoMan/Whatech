@@ -12,7 +12,9 @@ chmod +x whatech.sh
 ./whatech subdomains.txt
 
 
+![image](https://github.com/user-attachments/assets/2da4c61e-24e0-48e9-83ce-3f47d1a621c2)
 
-![image](https://github.com/user-attachments/assets/665baf9c-22e6-41c6-8c08-098f729148ff)
 
 
+
+![image](https://github.com/user-attachments/assets/2df72eaf-74d6-4435-92e1-10a04b040155)
