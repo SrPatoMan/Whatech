@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## COLOURS ##
-NEGRO='\033[0;30m'
+BLACK='\033[0;30m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
@@ -78,6 +78,7 @@ done < $subdomain_list
 ## output ##
 mkdir -p whatech/server
 mkdir -p whatech/cms
+mkdir -p whatech/erp
 mkdir -p whatech/os
 mkdir -p whatech/other
 
@@ -109,31 +110,51 @@ tech_detect2() {
 
 }
 
+echo -e "${BLUE}\n\n\n[+] PROCESSING OUTPUT, WAIT A MOMENT PLEASE...\n\n${RESET_COLOR}"
 
 ## Classification of results ##
 server_path=whatech/server
 cms_path=whatech/cms
+erp_path=whatech/erp
 os_path=whatech/os
 other_path=whatech/other
 
 ## Servers / Proxys / CDNs detection ##
 tech_detect "nginx" "nginx_subdomains.txt" "$server_path"
 tech_detect "Apache" "apache_subdomains.txt" "$server_path"
+tech_detect "Microsoft-IIS" "iis_subdomains.txt" "$server_path"
 tech_detect "CloudFront" "cloudfront_subdomains.txt" "$server_path"
 tech_detect "cloudflare" "cloudflare_subdomains.txt" "$server_path"
+tech_detect2 "AzureCloud" "azure_subdomains.txt" "$server_path"
+tech_detect "Imgix" "imgix_subdomains.txt" "$server_path"
 tech_detect "Akamai" "akamai_subdomains.txt" "$server_path"
 tech_detect "BigIP" "f5bigip_subdomains.txt" "$server_path"
-
+tech_detect "IBM-WebSphere-DataPower" "ibmdatapower_subdomains.txt" "$server_path"
+tech_detect "Varnish" "varnish_subdomains.txt" "$server_path"
 
 ## CMS detection ##
 tech_detect2 "WordPress" "wordpress_subdomains.txt" "$cms_path"
 tech_detect2 "Moodle" "moodle_subdomains.txt" "$cms_path"
 tech_detect2 "Drupal" "drupal_subdomains.txt" "$cms_path"
 
+## ERP detection ##
+tech_detect "SAP" "sap_subdomains.txt" "$erp_path"
+
 ## OS detection ##
 tech_detect2 "AlmaLinux" "almalinux_subdomains.txt" "$os_path"
+tech_detect2 "CentOS" "centos_subdomains.txt" "$os_path"
+tech_detect2 "Almazon Linux" "amazonlinux_subdomains.txt" "$os_path"
 
 ## Other detections ##
 tech_detect2 "PHP" "php_subdomains.txt" "$other_path"
 tech_detect2 "OpenResty" "openresty_subdomains.txt" "$other_path"
 tech_detect2 "403 Forbidden" "forbidden_subdomains.txt" "$other_path"
+tech_detect2 "401 Unauthorized" "forbidden2_subdomains.txt" "$other_path"
+tech_detect2 "AmazonS3" "s3buckets_subdomains.txt" "$other_path"
+tech_detect2 "Citrix-NetScaler" "citrix_subdomains.txt" "$other_path"
+tech_detect2 "Inxmail Server" "inxmail_subdomains.txt" "$other_path"
+tech_detect2 "WebTerm 7" "webterm7_subdomains.txt" "$other_path"
+tech_detect2 "ASP_NET" "aspnet_subdomains.txt" "$other_path"
+
+## Secrets ##
+tech_detect2 "Vault" "hasicorpvault_subdomains.txt" "$other_path"
