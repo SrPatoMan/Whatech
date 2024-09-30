@@ -4,7 +4,7 @@
 
 #### Install:
 
-wget 'https://raw.githubusercontent.com/SrPatoMan/Whatech/refs/heads/main/whatech.sh'   
+wget 'https://raw.githubusercontent.com/SrPatoMan/Whatech/refs/heads/main/whatech.sh'      
 chmod +x whatech.sh
 
 #### Usage:
