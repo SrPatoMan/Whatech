@@ -94,7 +94,7 @@ tech_detect() {
     file_path=$3
 
 
-    grep "HTTPServer.*$tech_detected" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    grep "HTTPServer.*$tech_detected" .whatech_subdomains_cleaned.txt | grep -E "^(https?://)" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
     mv $export_file $file_path
 
 }
@@ -105,7 +105,7 @@ tech_detect2() {
     file_path=$3
 
 
-    grep "$tech_detected" .whatech_subdomains_cleaned.txt | grep "^https://" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    grep "$tech_detected" .whatech_subdomains_cleaned.txt | grep -E "^(https?://)" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
     mv $export_file $file_path
 
 }
@@ -138,7 +138,9 @@ tech_detect2 "Moodle" "moodle_subdomains.txt" "$cms_path"
 tech_detect2 "Drupal" "drupal_subdomains.txt" "$cms_path"
 
 ## ERP detection ##
-tech_detect "SAP" "sap_subdomains.txt" "$erp_path"
+tech_detect2 "SAP" "sap_subdomains.txt" "$erp_path"
+tech_detect2 "Odoo" "odoo_subdomains.txt" "$erp_path"
+
 
 ## OS detection ##
 tech_detect2 "AlmaLinux" "almalinux_subdomains.txt" "$os_path"
@@ -158,3 +160,13 @@ tech_detect2 "ASP_NET" "aspnet_subdomains.txt" "$other_path"
 
 ## Secrets ##
 tech_detect2 "Vault" "hasicorpvault_subdomains.txt" "$other_path"
+
+## Delete empty files ##
+find whatech -type f -empty -exec rm {} \;
+
+## Final result ##
+rm .whatech_subdomains_cleaned.txt
+echo -e "${GREEN}\n\n[+] DONE! RESULTS EXPORTED: \n\n${RESET_COLOR}"
+echo -e "${GREEN}"
+tree whatech
+echo -e "\n\n${RESET_COLOR}"
