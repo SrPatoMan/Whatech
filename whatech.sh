@@ -70,7 +70,7 @@ echo -e "${BLUE}[+] SCANNING SUBDOMAINS...\n\n\n${RESET_COLOR}"
 subdomain_list=$1
 
 while IFS=' ' read -r subdomain;do
-    whatweb https://$subdomain/ | tee -a .whatech_subdomains.txt
+    whatweb http://$subdomain/ | tee -a .whatech_subdomains.txt
     echo -e "\n\n"
     echo -e "*" | tee -a ".whatech_subdomains.txt"
 done < $subdomain_list
@@ -94,7 +94,7 @@ tech_detect() {
     file_path=$3
 
 
-    grep "HTTPServer.*$tech_detected" .whatech_subdomains_cleaned.txt | grep -E "^(https?://)" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    grep "HTTPServer.*$tech_detected" .whatech_subdomains_cleaned.txt | grep -E "^(https?://)" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 | cut -d '?' -f1 | sort -u >> $export_file 
     mv $export_file $file_path
 
 }
@@ -105,7 +105,7 @@ tech_detect2() {
     file_path=$3
 
 
-    grep "$tech_detected" .whatech_subdomains_cleaned.txt | grep -E "^(https?://)" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 >> $export_file 
+    grep "$tech_detected" .whatech_subdomains_cleaned.txt | grep -E "^(https?://)" | cut -d ' ' -f1 | tr -d '/' | cut -d ':' -f2 | cut -d '?' -f1 | sort -u >> $export_file 
     mv $export_file $file_path
 
 }
